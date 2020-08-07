@@ -1,0 +1,80 @@
+#%RAML 1.0 Library
+types:
+  User:
+    type: object
+    properties:
+      id?: number
+      name: string
+      email: string
+    example: |
+      {
+        "id": 1,
+        "name": "John Smith",
+        "email": "john.smith@example.com"
+      }
+  Customer:
+    type: object
+    properties:
+      id?: number
+      name: string
+      website: string
+      contactName: string
+      contactPhone: string
+      contactEmail: string
+    example: |
+      {
+        "id": 1,
+        "name": "ABC Company",
+        "website": "example.com",
+        "contactName": "Sally Green",
+        "contactPhone": "5555551234",
+        "contactEmail": "sally.green@example.com"
+      }
+  Invoice:
+    type: object
+    properties:
+      id?: number
+      invoiceNumber: string
+      customerId: number
+      amount: number
+      invoiceDate: date-only
+      isPaid: boolean
+      paidDate: date-only | nil
+    example: |
+      {
+        "id": 1,
+        "invoiceNumber": "202006001",
+        "customerId": 1,
+        "amount": 2553.00,
+        "invoiceDate": "2020-06-15",
+        "isPaid": true,
+        "paidDate": "2020-06-25"
+      }
+  Document:
+    type: object
+    properties:
+      id?: number
+      docType: string
+      docLink:
+        type: string
+        description: Link to document location
+    example: |
+      {
+        "id": 1,
+        "docType": "Invoice",
+        "docLink": "example.com/documents/ds651ds-ds651-q9e81d6s549-ds615"
+      }
+  InventoryItem:
+    type: object
+    properties:
+      id?: number
+      name: string
+      stockOnHand: number
+      pricePerUnit: number
+    example: |
+      {
+        "id": 1,
+        "name": "5mm screw",
+        "stockOnHand": 2502,
+        "pricePerUnit": 0.03
+      }
