@@ -1,222 +1,29 @@
 #%RAML 1.0
 title: BasicERP API
-version: v1
-baseUri: https://basicerp.com/api/{version}
-protocols:
-  - HTTPS
+version: 1
+baseUri: http://localhost:3000
 mediaType: application/json
-
-uses:
-  BasicERP: libraries/basic-erp-lib.raml
-
+types:
+    User:
+        type: object
+        properties:
+            id:
+                required: true
+                type: integer
+            name:
+                required: true
+                type: string
 /users:
-  get:
-    description: Retrievs a list of users
-    responses:
-      200:
-        body:
-          application/json:
-            type: BasicERP.User[]
-  post:
-    description: Creates a user
-    body:
-      application/json:
-        type: BasicERP.User
-    responses:
-      201:
-        body:
-          application/json:
-            type: BasicERP.User
-  /{user_id}:
     get:
-      description: Retrieves a user
-      responses:
-        200:
-          body:
-            application/json:
-              type: BasicERP.User
-    put:
-      description: Updates a user
-      body:
-        application/json:
-          type: BasicERP.User
-      responses:
-        200:
-          body:
-            application/json:
-              type: BasicERP.User
-    delete:
-      description: Deletes a user
-      responses:
-        200:
-          body:
-            application/json:
-              example: |
-                {
-                  "message": "User deleted successfully"
-                }
-
-/customers:
-  get:
-    description: Retrieves a list of customers
-    responses:
-      200:
-        body:
-          application/json:
-            type: BasicERP.Customer[]
-  post:
-    description: Creates a customer
-    body:
-      application/json:
-        type: BasicERP.Customer
-    responses:
-      201:
-        body:
-          application/json:
-            type: BasicERP.Customer
-  /{customer_id}:
-    get:
-      description: Retrieves a customer
-      responses:
-        200:
-          body:
-            application/json:
-              type: BasicERP.Customer
-    put:
-      description: Updates a customer
-      body:
-        application/json:
-          type: BasicERP.Customer
-      responses:
-        200:
-          body:
-            application/json:
-              type: BasicERP.Customer
-    delete:
-      description: Deletes a customer
-      responses:
-        200:
-          body:
-            application/json:
-              example: |
-                {
-                  "message": "Customer deleted successfully"
-                }
-    /invoices:
-      get:
-        description: Returns a list of invoices
+        description: List all Users matching query criteria.
+        queryParameters:
+            name:
+                required: false
+                type: string
+                example: "John"
         responses:
-          200:
-            body:
-              application/json:
-                type: BasicERP.Invoice[]
-/invoices:
-  post:
-    description: Creates an invoice
-    body:
-      application/json:
-        type: BasicERP.Invoice
-    responses:
-      201:
-        body:
-          application/json:
-            type: BasicERP.Invoice
-  /{invoice_id}:
-    get:
-      description: Retrievs an invoice
-      responses:
-        200:
-          body:
-            application/json:
-              type: BasicERP.Invoice
-    /documents:
-      get:
-        description: Retrieves a list of documents
-        responses:
-          200:
-            body:
-              application/json:
-                type: BasicERP.Document[]
-
-/documents:
-  post:
-    description: Creates a document
-    body:
-      application/json:
-        type: BasicERP.Document
-    responses:
-      201:
-        body:
-          application/json:
-            type: BasicERP.Document
-  /{document_id}:
-    get:
-      description: Retrieves a document
-      responses:
-        200:
-          body:
-            application/json:
-              type: BasicERP.Document
-    put:
-      description: Updates a document
-      body:
-        application/json:
-          type: BasicERP.Document
-      responses:
-        200:
-          body:
-            application/json:
-              type: BasicERP.Document
-    delete:
-      description: Deletes a document
-      responses:
-        200:
-          body:
-            application/json:
-              example: |
-                {
-                  "message": "Document deleted successfully"
-                }
-
-/inventory:
-  get:
-    description: Retrieves a list of inventory items
-    responses:
-      200:
-        body:
-          application/json:
-            type: BasicERP.InventoryItem[]
-  post:
-    body:
-      application/json:
-        type: BasicERP.InventoryItem
-    responses:
-      201:
-        body:
-          application/json:
-            type: BasicERP.InventoryItem
-  /{item_id}:
-    get:
-      responses:
-        200:
-          body:
-            application/json:
-              type: BasicERP.InventoryItem
-    put:
-      body:
-        application/json:
-          type: BasicERP.InventoryItem
-      responses:
-        200:
-          body: 
-            application/json:
-              type: BasicERP.InventoryItem
-    delete:
-      responses:
-        200:
-          body:
-            application/json:
-              example: |
-                {
-                  "message": "Inventory item deleted successfully"
-                }
+            200:
+                body:
+                    application/json:
+                        type: User
+                        example: { "id": 1, "name": "John" }
