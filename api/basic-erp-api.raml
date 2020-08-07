@@ -9,6 +9,7 @@ mediaType: application/json
 uses:
   BasicERP: libraries/basic-erp-lib.raml
 
+
 /users:
   get:
     description: Retrievs a list of users
@@ -208,7 +209,7 @@ uses:
           type: BasicERP.InventoryItem
       responses:
         200:
-          body: 
+          body:
             application/json:
               type: BasicERP.InventoryItem
     delete:
