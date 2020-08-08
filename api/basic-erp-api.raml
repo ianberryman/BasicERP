@@ -128,6 +128,24 @@ uses:
           body:
             application/json:
               type: BasicERP.Invoice
+    put:
+      body:
+        application/json:
+          type: BasicERP.Invoice
+      responses:
+        200:
+          body:
+            application/json:
+              type: BasicERP.Invoice
+    delete:
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "message": "Invoice deleted successfully"
+                }
     /documents:
       get:
         description: Retrieves a list of documents
