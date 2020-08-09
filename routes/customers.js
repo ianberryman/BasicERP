@@ -1,45 +1,70 @@
 var express = require('express');
+var customerDao = require("../datasource/customerDao");
+var invoiceDao = require("../datasource/invoiceDao");
 var router = express.Router();
 
 router.get('/', function (req, res) {
-    var customers = [
-       {
-           id: 1,
-           name: "ABC Company",
-           website: "example.com",
-           contactName: "Sally Green",
-           contactPhone: "5555551234",
-           contactEmail: "sally.green@example.com"
-       }
-   ];
-    res.send(customers);
+    customerDao.getCustomers().then(customers => {
+        res.send(customers);
+    }).catch(err => setImmediate(() => {throw err;}));
 });
 
 router.post('/', function (req,res) {
-    res.status(201);
-    res.send(req.body);
+    customerDao.createCustomer(req.body).then(customer => {
+        //handle fail
+        if (!customer) {
+            res.status(500);
+            res.send({
+                message: "System error"
+            })
+            //handle success
+        } else {
+            res.status(201);
+            res.send(customer);
+        }
+    }).catch(err => setImmediate(() => {throw err;}));
 });
 
 router.get('/:customer_id', function (req, res) {
-    var customer = {
-       id: parseInt(req.params.customer_id),
-       name: "ABC Company",
-       website: "example.com",
-       contactName: "Sally Green",
-       contactPhone: "5555551234",
-       contactEmail: "sally.green@example.com"
-   };
-   res.send(customer);
+    customerDao.getCustomerById(parseInt(req.params.customer_id)).then(customer => {
+        if (!customer) {
+            res.status(404);
+            res.send({
+                message: "Customer not found"
+            })
+        } else {
+            res.send(customer);
+        }
+    }).catch(err => setImmediate(() => {throw err;}));
+});
+
+router.get('/:customer_id/invoices', function (req, res) {
+    invoiceDao.getInvoicesByCustomerId(parseInt(req.params.customer_id)).then(invoices => {
+        res.send(invoices);
+    }).catch(err => setImmediate(() => {throw err;}));
 });
 
 router.put('/:customer_id', function (req,res) {
-    res.send(req.body);
+    customerDao.updateCustomer(req.body, req.params.customer_id).then(customer => {
+        //handle fail
+        if (!customer) {
+            res.status(500);
+            res.send({
+                message: "System error"
+            })
+            //handle success
+        } else {
+            res.send(customer);
+        }
+    }).catch(err => setImmediate(() => {throw err;}));
 });
 
 router.delete('/:customer_id', function (req,res) {
-   res.send({
-       message: "Customer deleted successfully"
-   });
+    customerDao.deleteCustomer(parseInt(req.params.customer_id)).then(results => {
+        res.send({
+            message: "Customer deleted successfully"
+        });
+    }).catch(err => setImmediate(() => {throw err;}));
 });
 
 router.get('/:customer_id/invoices', function (req,res) {
